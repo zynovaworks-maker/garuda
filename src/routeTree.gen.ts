@@ -9,38 +9,220 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WizardRouteImport } from './routes/wizard'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppWarRoomRouteImport } from './routes/app.war-room'
+import { Route as AppVoteRouteImport } from './routes/app.vote'
+import { Route as AppVerifyRouteImport } from './routes/app.verify'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppReportRouteImport } from './routes/app.report'
+import { Route as AppMapRouteImport } from './routes/app.map'
+import { Route as AppFundRouteImport } from './routes/app.fund'
+import { Route as AppForceRouteImport } from './routes/app.force'
+import { Route as AppAdminRouteImport } from './routes/app.admin'
 
+const WizardRoute = WizardRouteImport.update({
+  id: '/wizard',
+  path: '/wizard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppWarRoomRoute = AppWarRoomRouteImport.update({
+  id: '/war-room',
+  path: '/war-room',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppVoteRoute = AppVoteRouteImport.update({
+  id: '/vote',
+  path: '/vote',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppVerifyRoute = AppVerifyRouteImport.update({
+  id: '/verify',
+  path: '/verify',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportRoute = AppReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMapRoute = AppMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFundRoute = AppFundRouteImport.update({
+  id: '/fund',
+  path: '/fund',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppForceRoute = AppForceRouteImport.update({
+  id: '/force',
+  path: '/force',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/wizard': typeof WizardRoute
+  '/app/admin': typeof AppAdminRoute
+  '/app/force': typeof AppForceRoute
+  '/app/fund': typeof AppFundRoute
+  '/app/map': typeof AppMapRoute
+  '/app/report': typeof AppReportRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/verify': typeof AppVerifyRoute
+  '/app/vote': typeof AppVoteRoute
+  '/app/war-room': typeof AppWarRoomRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/wizard': typeof WizardRoute
+  '/app/admin': typeof AppAdminRoute
+  '/app/force': typeof AppForceRoute
+  '/app/fund': typeof AppFundRoute
+  '/app/map': typeof AppMapRoute
+  '/app/report': typeof AppReportRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/verify': typeof AppVerifyRoute
+  '/app/vote': typeof AppVoteRoute
+  '/app/war-room': typeof AppWarRoomRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/wizard': typeof WizardRoute
+  '/app/admin': typeof AppAdminRoute
+  '/app/force': typeof AppForceRoute
+  '/app/fund': typeof AppFundRoute
+  '/app/map': typeof AppMapRoute
+  '/app/report': typeof AppReportRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/verify': typeof AppVerifyRoute
+  '/app/vote': typeof AppVoteRoute
+  '/app/war-room': typeof AppWarRoomRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/wizard'
+    | '/app/admin'
+    | '/app/force'
+    | '/app/fund'
+    | '/app/map'
+    | '/app/report'
+    | '/app/settings'
+    | '/app/verify'
+    | '/app/vote'
+    | '/app/war-room'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/wizard'
+    | '/app/admin'
+    | '/app/force'
+    | '/app/fund'
+    | '/app/map'
+    | '/app/report'
+    | '/app/settings'
+    | '/app/verify'
+    | '/app/vote'
+    | '/app/war-room'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/wizard'
+    | '/app/admin'
+    | '/app/force'
+    | '/app/fund'
+    | '/app/map'
+    | '/app/report'
+    | '/app/settings'
+    | '/app/verify'
+    | '/app/vote'
+    | '/app/war-room'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  WizardRoute: typeof WizardRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wizard': {
+      id: '/wizard'
+      path: '/wizard'
+      fullPath: '/wizard'
+      preLoaderRoute: typeof WizardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +230,113 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/war-room': {
+      id: '/app/war-room'
+      path: '/war-room'
+      fullPath: '/app/war-room'
+      preLoaderRoute: typeof AppWarRoomRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/vote': {
+      id: '/app/vote'
+      path: '/vote'
+      fullPath: '/app/vote'
+      preLoaderRoute: typeof AppVoteRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/verify': {
+      id: '/app/verify'
+      path: '/verify'
+      fullPath: '/app/verify'
+      preLoaderRoute: typeof AppVerifyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/report': {
+      id: '/app/report'
+      path: '/report'
+      fullPath: '/app/report'
+      preLoaderRoute: typeof AppReportRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/map': {
+      id: '/app/map'
+      path: '/map'
+      fullPath: '/app/map'
+      preLoaderRoute: typeof AppMapRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/fund': {
+      id: '/app/fund'
+      path: '/fund'
+      fullPath: '/app/fund'
+      preLoaderRoute: typeof AppFundRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/force': {
+      id: '/app/force'
+      path: '/force'
+      fullPath: '/app/force'
+      preLoaderRoute: typeof AppForceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin': {
+      id: '/app/admin'
+      path: '/admin'
+      fullPath: '/app/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAdminRoute: typeof AppAdminRoute
+  AppForceRoute: typeof AppForceRoute
+  AppFundRoute: typeof AppFundRoute
+  AppMapRoute: typeof AppMapRoute
+  AppReportRoute: typeof AppReportRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppVerifyRoute: typeof AppVerifyRoute
+  AppVoteRoute: typeof AppVoteRoute
+  AppWarRoomRoute: typeof AppWarRoomRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAdminRoute: AppAdminRoute,
+  AppForceRoute: AppForceRoute,
+  AppFundRoute: AppFundRoute,
+  AppMapRoute: AppMapRoute,
+  AppReportRoute: AppReportRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppVerifyRoute: AppVerifyRoute,
+  AppVoteRoute: AppVoteRoute,
+  AppWarRoomRoute: AppWarRoomRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  WizardRoute: WizardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
