@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppWarRoomRouteImport } from './routes/app.war-room'
 import { Route as AppVoteRouteImport } from './routes/app.vote'
 import { Route as AppVerifyRouteImport } from './routes/app.verify'
 import { Route as AppMapRouteImport } from './routes/app.map'
@@ -43,6 +44,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppWarRoomRoute = AppWarRoomRouteImport.update({
+  id: '/war-room',
+  path: '/war-room',
   getParentRoute: () => AppRoute,
 } as any)
 const AppVoteRoute = AppVoteRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/app/map': typeof AppMapRoute
   '/app/verify': typeof AppVerifyRoute
   '/app/vote': typeof AppVoteRoute
+  '/app/war-room': typeof AppWarRoomRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/app/map': typeof AppMapRoute
   '/app/verify': typeof AppVerifyRoute
   '/app/vote': typeof AppVoteRoute
+  '/app/war-room': typeof AppWarRoomRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/app/map': typeof AppMapRoute
   '/app/verify': typeof AppVerifyRoute
   '/app/vote': typeof AppVoteRoute
+  '/app/war-room': typeof AppWarRoomRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/app/map'
     | '/app/verify'
     | '/app/vote'
+    | '/app/war-room'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/app/map'
     | '/app/verify'
     | '/app/vote'
+    | '/app/war-room'
     | '/app'
   id:
     | '__root__'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/app/map'
     | '/app/verify'
     | '/app/vote'
+    | '/app/war-room'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -189,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/war-room': {
+      id: '/app/war-room'
+      path: '/war-room'
+      fullPath: '/app/war-room'
+      preLoaderRoute: typeof AppWarRoomRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/vote': {
       id: '/app/vote'
       path: '/vote'
@@ -233,6 +252,7 @@ interface AppRouteChildren {
   AppMapRoute: typeof AppMapRoute
   AppVerifyRoute: typeof AppVerifyRoute
   AppVoteRoute: typeof AppVoteRoute
+  AppWarRoomRoute: typeof AppWarRoomRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -242,6 +262,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMapRoute: AppMapRoute,
   AppVerifyRoute: AppVerifyRoute,
   AppVoteRoute: AppVoteRoute,
+  AppWarRoomRoute: AppWarRoomRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
