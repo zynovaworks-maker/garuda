@@ -1,0 +1,8 @@
+services:
+  garuda-campaign:
+    build: .
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - PORT=3003
