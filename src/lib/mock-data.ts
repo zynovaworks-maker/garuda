@@ -147,6 +147,13 @@ export const donatur = [
   { nama: "Komunitas UMKM Pesisir", komitmen: 75_000_000, tipe: "Komunitas" },
 ];
 
+export const kontrakSuara = [
+  { id: "KS-001", wilayah: "Tanjung Priok", target: 62000, aktual: 48200, anggaran: 760_000_000, penanggungJawab: "Budi Santoso", status: "On Track" },
+  { id: "KS-002", wilayah: "Cilincing", target: 54000, aktual: 41300, anggaran: 690_000_000, penanggungJawab: "Siti Aminah", status: "Perlu Dorongan" },
+  { id: "KS-003", wilayah: "Koja", target: 47000, aktual: 38900, anggaran: 610_000_000, penanggungJawab: "Agus Rahman", status: "On Track" },
+  { id: "KS-004", wilayah: "Pademangan", target: 42000, aktual: 32100, anggaran: 540_000_000, penanggungJawab: "Dewi Lestari", status: "At Risk" },
+];
+
 export const verifikasiTPS = Array.from({ length: 12 }).map((_, i) => ({
   id: `C1-${2000 + i}`,
   tps: `TPS ${String(i+1).padStart(3,"0")}`,

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { electionTypes, packages, strategies } from "@/lib/mock-data";
+import { defaultCampaignSetup, getElectionMeta, saveCampaignSetup } from "@/lib/campaign-setup";
 import {
   ArrowRight, ArrowLeft, Check, Upload, Building2, MapPin, Vote, Crown,
   Sparkles, Network, DoorOpen, Users, Flag, Zap,
@@ -27,15 +28,19 @@ const electionIcons: Record<string, any> = { pilkades: Building2, "pileg-kab": M
 function WizardPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const [data, setData] = useState({
-    nama: "", kandidat: "", tahun: "2026",
-    election: "pilkada", pkg: "GARUDA Professional", strategy: "hybrid",
-  });
+  const [data, setData] = useState(defaultCampaignSetup);
   const progress = ((step + 1) / 5) * 100;
   const next = () => setStep(s => Math.min(4, s + 1));
   const prev = () => setStep(s => Math.max(0, s - 1));
   const finish = () => {
-    toast.success("Campaign berhasil dibuat! Mengarahkan ke dashboard…");
+    const finalData = {
+      ...data,
+      nama: data.nama.trim() || defaultCampaignSetup.nama,
+      kandidat: data.kandidat.trim() || defaultCampaignSetup.kandidat,
+      tahun: data.tahun.trim() || defaultCampaignSetup.tahun,
+    };
+    saveCampaignSetup(finalData);
+    toast.success("Campaign berhasil dibuat. Mengarahkan ke dashboard...");
     setTimeout(() => navigate({ to: "/app" }), 800);
   };
 
@@ -156,10 +161,10 @@ function WizardPage() {
 
               <div className="mt-6 rounded-xl bg-gradient-to-br from-primary to-[oklch(0.3_0.09_250)] p-6 text-white">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-gold">
-                  <Sparkles className="h-3.5 w-3.5" /> Struktur Otomatis · {electionTypes.find(e => e.kode === data.election)?.nama}
+                  <Sparkles className="h-3.5 w-3.5" /> Struktur Otomatis · {getElectionMeta(data.election).nama}
                 </div>
                 <div className="mt-6 flex flex-col items-center gap-3 lg:flex-row lg:justify-between lg:gap-2">
-                  {electionTypes.find(e => e.kode === data.election)!.hierarchy.map((h, i, arr) => (
+                  {getElectionMeta(data.election).hierarchy.map((h, i, arr) => (
                     <div key={h} className="flex w-full items-center gap-2 lg:w-auto lg:flex-col">
                       <div className="flex flex-1 items-center justify-center rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-center text-sm font-semibold backdrop-blur lg:flex-none lg:min-w-[140px]">
                         {h}
@@ -184,7 +189,7 @@ function WizardPage() {
             <div>
               <Badge variant="outline">Langkah 5 dari 5</Badge>
               <h2 className="mt-3 text-2xl font-bold md:text-3xl">Strategi Kampanye</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Pilih pendekatan utama — bisa diubah kapan saja di dashboard.</p>
+              <p className="mt-1 text-sm text-muted-foreground">Pilih pendekatan utama. Bisa diubah kapan saja di dashboard.</p>
               <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {strategies.map(s => {
                   const Icon = stratIcons[s.icon] ?? Zap;

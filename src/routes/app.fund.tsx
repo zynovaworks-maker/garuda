@@ -4,8 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { transaksiKeuangan, donatur } from "@/lib/mock-data";
-import { ArrowDown, ArrowUp, Wallet, CheckCircle, Clock, XCircle, Heart } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { transaksiKeuangan, donatur, kontrakSuara } from "@/lib/mock-data";
+import { ArrowDown, ArrowUp, Wallet, CheckCircle, Clock, XCircle, Heart, FileSignature } from "lucide-react";
 import { toast } from "sonner";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar } from "recharts";
 
@@ -43,6 +44,7 @@ function FundPage() {
           <TabsTrigger value="trx">Pemasukan & Pengeluaran</TabsTrigger>
           <TabsTrigger value="donatur">Donatur & Sponsor</TabsTrigger>
           <TabsTrigger value="mutasi">Mutasi Dana</TabsTrigger>
+          <TabsTrigger value="kontrak">Kontrak Suara</TabsTrigger>
           <TabsTrigger value="approval">Approval Pencairan</TabsTrigger>
           <TabsTrigger value="roi">Heatmap ROI</TabsTrigger>
           <TabsTrigger value="laporan">Laporan</TabsTrigger>
@@ -52,11 +54,61 @@ function FundPage() {
         <TabsContent value="trx" className="mt-4"><TransaksiTable /></TabsContent>
         <TabsContent value="donatur" className="mt-4"><DonaturList /></TabsContent>
         <TabsContent value="mutasi" className="mt-4"><TransaksiTable /></TabsContent>
+        <TabsContent value="kontrak" className="mt-4"><KontrakSuara /></TabsContent>
         <TabsContent value="approval" className="mt-4"><Approval /></TabsContent>
         <TabsContent value="roi" className="mt-4"><ROIChart /></TabsContent>
         <TabsContent value="laporan" className="mt-4"><Laporan /></TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+function KontrakSuara() {
+  const color: Record<string, string> = {
+    "On Track": "bg-teal/20 text-teal border border-teal/40",
+    "Perlu Dorongan": "bg-orange/20 text-orange border border-orange/40",
+    "At Risk": "bg-destructive/20 text-destructive border border-destructive/40",
+  };
+
+  return (
+    <Card className="glass-dark border-white/10 p-4 text-white">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <div className="flex items-center gap-2 text-sm font-semibold"><FileSignature className="h-4 w-4 text-gold" /> Kontrak Suara Wilayah</div>
+          <div className="text-xs text-white/60">Menghubungkan target suara, penanggung jawab, dan anggaran per wilayah.</div>
+        </div>
+        <Button size="sm" className="bg-gold text-gold-foreground" onClick={() => toast.success("Kontrak suara baru dibuat")}>Tambah Kontrak</Button>
+      </div>
+      <div className="space-y-3">
+        {kontrakSuara.map((item) => {
+          const progress = Math.round((item.aktual / item.target) * 100);
+          const costPerVote = Math.round(item.anggaran / Math.max(item.aktual, 1));
+          return (
+            <div key={item.id} className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div className="text-sm font-semibold">{item.wilayah}</div>
+                  <div className="text-xs text-white/55">{item.id} · PJ {item.penanggungJawab} · ROI Rp {costPerVote.toLocaleString("id-ID")} / suara</div>
+                </div>
+                <Badge className={color[item.status]}>{item.status}</Badge>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between text-xs">
+                  <span className="text-white/60">Realisasi suara</span>
+                  <span className="font-medium">{item.aktual.toLocaleString("id-ID")} / {item.target.toLocaleString("id-ID")} ({progress}%)</span>
+                </div>
+                <Progress value={progress} className="mt-1.5 h-2" />
+              </div>
+              <div className="mt-3 grid gap-2 text-xs sm:grid-cols-3">
+                <div className="rounded bg-white/5 p-2"><span className="text-white/50">Anggaran</span><div className="font-semibold text-gold">Rp {(item.anggaran / 1e6).toFixed(0)} Jt</div></div>
+                <div className="rounded bg-white/5 p-2"><span className="text-white/50">Sisa target</span><div className="font-semibold">{(item.target - item.aktual).toLocaleString("id-ID")}</div></div>
+                <div className="rounded bg-white/5 p-2"><span className="text-white/50">Aksi</span><div className="font-semibold text-teal">Kirim ke Force</div></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </Card>
   );
 }
 

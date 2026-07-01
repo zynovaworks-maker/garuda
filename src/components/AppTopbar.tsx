@@ -7,9 +7,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MobileMenuButton } from "./AppSidebar";
 import { useEffect, useState } from "react";
+import { getCampaignSetup, type CampaignSetup } from "@/lib/campaign-setup";
 
 export function AppTopbar({ onMenuClick }: { onMenuClick: () => void }) {
   const [campaign, setCampaign] = useState("Kampanye Suryanto 2026");
+  const [campaignSetup, setCampaignSetup] = useState<CampaignSetup | null>(null);
   const [region, setRegion] = useState("Seluruh Wilayah");
   const [range, setRange] = useState("30 Hari Terakhir");
   const [session, setSession] = useState<{ email: string; role: string } | null>(null);
@@ -18,7 +20,22 @@ export function AppTopbar({ onMenuClick }: { onMenuClick: () => void }) {
     try {
       const s = localStorage.getItem("garuda_session");
       if (s) setSession(JSON.parse(s));
+      const setup = getCampaignSetup();
+      setCampaignSetup(setup);
+      setCampaign(setup.nama);
     } catch {}
+
+    const onSetup = (event: Event) => {
+      const next = (event as CustomEvent<CampaignSetup>).detail ?? getCampaignSetup();
+      setCampaignSetup(next);
+      setCampaign(next.nama);
+    };
+    window.addEventListener("garuda:campaign-setup", onSetup);
+    window.addEventListener("storage", onSetup);
+    return () => {
+      window.removeEventListener("garuda:campaign-setup", onSetup);
+      window.removeEventListener("storage", onSetup);
+    };
   }, []);
 
   return (
@@ -36,7 +53,7 @@ export function AppTopbar({ onMenuClick }: { onMenuClick: () => void }) {
         <DropdownMenuContent align="start">
           <DropdownMenuLabel>Pilih Campaign</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {["Kampanye Suryanto 2026", "Pilkada Kab. Bekasi 2027", "Pileg Dapil DKI III"].map((c) => (
+          {[campaignSetup?.nama ?? "Kampanye Suryanto 2026", "Pilkada Kab. Bekasi 2027", "Pileg Dapil DKI III"].map((c) => (
             <DropdownMenuItem key={c} onClick={() => setCampaign(c)}>{c}</DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -72,7 +89,7 @@ export function AppTopbar({ onMenuClick }: { onMenuClick: () => void }) {
         <div className="relative hidden lg:block">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
-            placeholder="Cari pemilih, TPS, relawan…"
+            placeholder="Cari pemilih, TPS, relawan..."
             className="h-9 w-64 rounded-md border border-input bg-background pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
